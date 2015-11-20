@@ -10,7 +10,7 @@ var acceleSense = require('./events/acceleSense');
 var router = express.Router();
 
 var mInterval = 1000;
-var dInterval = 5000;
+var dInterval = 60000;
 var tInterval = 2000;
 var aInterval = 1000;
 var hInterval = 60000 * 5;
@@ -18,27 +18,27 @@ var wInterval = 60000 * 5;
 
 var motionData = 0;
 var doorData = 0;
-var tempData = 248;
+var tempData = 30;
 var humidData = 51;
 var waterData = [0, 0, 0, 0];
 var acceleData = [0, 0, 0];
 
 
-router.get('/minterval', function(req, res) {
-    mInterval = req.param('interval');
+router.get('/minterval/:interval', function(req, res) {
+    mInterval = req.params.interval;
     res.send(mInterval);
     console.log("got " + mInterval);
 });
-router.get('/dinterval', function(req, res) {
-    dInterval = req.param('interval');
+router.get('/dinterval/:interval', function(req, res) {
+    dInterval = req.params.interval;
     console.log("got " + dInterval);
 });
-router.get('/ainterval', function(req, res) {
-    aInterval = req.param('interval');
+router.get('/ainterval/:interval', function(req, res) {
+    aInterval = req.params.interval;
     console.log("got " + aInterval);
 });
-router.get('/hinterval', function(req, res) {
-    hInterval = req.param('interval');
+router.get('/hinterval/:interval', function(req, res) {
+    hInterval = req.params.interval;
     console.log("got " + hInterval);
 });
 
@@ -50,7 +50,7 @@ router.get('/hinterval', function(req, res) {
  * accele   5
  */
 router.get('/data', function(req, res) {
-    var eventId = req.param('eId');
+    var eventId = req.param('eid');
 
     if (eventId == 0) {
         motionData = req.param('data');
@@ -62,6 +62,7 @@ router.get('/data', function(req, res) {
         humidData = req.param('data');
     } else if (eventId == 4) {
         waterData = req.param('data');
+        res.send(waterData);
     } else if (eventId == 5) {
         acceleData = req.param('data');
     }
@@ -71,9 +72,9 @@ router.get('/data', function(req, res) {
 setInterval(function () {
     motionSense.motion(motionData, mInterval);
 }, mInterval);
-//setInterval(function () {
-//    doorSense.doorOpenCls(doorData);
-//}, dInterval);
+setInterval(function () {
+    doorSense.doorOpenCls(doorData);
+}, dInterval);
 setInterval(function () {
     tempSense.temp(tempData);
 }, tInterval);

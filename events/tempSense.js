@@ -21,5 +21,5 @@ function fillArray(data) {
         dataArray[i] = dataArray[i-1];
     }
 
-    dataArray[0] = ((data * 3.3) / 1024.0 - 0.5) * 100;
+    dataArray[0] = data;
 }

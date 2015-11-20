@@ -1,4 +1,4 @@
-/*Humidity sensor DHT11 arduino */
+/*Humidity sensor Si7020 */
 
 var dataArray = [40, 40, 40, 40, 40, 40, 40, 40, 40, 40];
 
@@ -7,7 +7,7 @@ module.exports = {
         fillArray(data);
 
         if (dataArray[0] > 50) {
-            cosole.log("Humidity is above the comfort level");
+            console.log("Humidity is above the comfort level");
         } else if (dataArray[0] < 30) {
             console.log("Humidity is below the comfort level");
         }
